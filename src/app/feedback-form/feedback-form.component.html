@@ -1,0 +1,77 @@
+<div class="form-container">
+  <h2>Feedback Form</h2>
+  <form #feedbackForm="ngForm" (ngSubmit)="onSubmit(feedbackForm)">
+    <div class="form-group">
+      <label for="name">Name: </label>
+      <input type="text"
+       name="name"
+       id="name" 
+       autocomplete="off" 
+       [(ngModel)]="feedback.name" 
+       #name="ngModel"
+       required/>
+       <div class="error" *ngIf="name.invalid && name.touched">
+        Name is required
+       </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="form-group">
+      <label for="email">Email: </label>
+      <input type="email" 
+      id="email" 
+      name="email" 
+      autocapitalize="off" 
+      [(ngModel)]="feedback.email"
+      #email="ngModel"
+      required
+      email/>
+
+      <div class="error" *ngIf="email.invalid && email.touched">
+       <div *ngIf="email.errors?.['required']">Email is required</div>
+       <div *ngIf="email.errors?.['email']">Invalid email format</div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="feedback">Feedback: </label>
+      <textarea name="feedback" id="feedback" autocomplete="off" 
+        
+        [(ngModel)] = "feedback.feedback"
+        required
+        #feedbackField="ngModel">
+      </textarea>
+
+      <div class="error" *ngIf="feedbackField.invalid && feedbackField.touched">
+        Feedback is required
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="feedbackForm.invalid">Submit Feedback</button>
+  </form>
+
+  <div class="success" *ngIf="submitted && lastSubmittedFeedBack">
+    <h3>Thank you for your feedback, {{lastSubmittedFeedBack.name}}</h3>
+    <p>We well get back to you at {{lastSubmittedFeedBack.email}} if necessary</p>
+
+  </div>
+
+  <!-- Export Button -->
+<button (click)="exportToExcel()" [disabled]="feedbackList.length === 0" style="margin-top: 10px;">
+  Export All Feedback to Excel
+</button>
+
+<!-- Optional Clear Button -->
+<button (click)="clearFeedbacks()" [disabled]="feedbackList.length === 0" style="margin-top: 0.5rem; background-color: #dc3545;">
+  Clear All Feedback
+</button>
+
+
+  
+</div>
